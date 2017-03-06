@@ -46,7 +46,7 @@ dockeragent::node {'instancename':
 
 ## Running multiple agents with puppet code
 
-Be careful when starting many agents at once. This can lead to massive IO spikes as there is no logic to stagger the puppet agent runs. If you need many agents to be run (20+) I would suggest incrementally adding more between **puppet agent -t** runs
+Be careful when starting many agents at once. This can lead to massive IO spikes as there is no logic to stagger the puppet agent runs. If you need many agents to be run (20+) I would suggest incrementally adding more between **puppet agent -t** runs. 
 
 ```
 
@@ -60,3 +60,20 @@ class { 'dockeragent::multinodes':
 
 ```
 
+## Running the puppet agent
+
+By default this module configures the containers to run the puppet agent perodically. With testing it may be useful to run the puppet agent ad-hoc. You can do this on a specific container in the environment with the following command. 
+
+```
+
+docker exec -it <container name> puppet agent -t
+
+```
+
+A simple script to sequentially run **puppet agent -t** on all of the containers is as follows.
+
+```
+
+for i in $(docker ps -q); do docker exec -it $i puppet agent -t; done
+
+```
