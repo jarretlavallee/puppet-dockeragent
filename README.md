@@ -1,6 +1,6 @@
 # Docker Puppet Agent
 
-This is a basic repository for a docker agent module that can be spun up for testing multiple agents for reproductions. It is a wrapper for the *puppetlabs-docker_platform* odule. The core code leverages a docker image from https://github.com/puppetlabs/puppet-in-docker/master/puppet-agent-ubuntu with the idea of having agents that are deployed through docker.
+This is a basic repository for a docker agent module that can be spun up for testing multiple agents for reproductions. It is a wrapper for the *puppetlabs-docker_platform* module. The core code leverages a docker image from https://github.com/puppetlabs/puppet-in-docker/master/puppet-agent-ubuntu with the idea of having agents that are deployed through docker.
 
 
 ## Preconfiguration
