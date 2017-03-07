@@ -5,5 +5,5 @@ class dockeragent {
   docker::image { 'puppet/puppet-agent-ubuntu':
     ensure => present,
   }
-  
+
 }

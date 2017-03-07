@@ -11,10 +11,10 @@ class dockeragent::multinodes (
 
   range(1,$agents).each |$n| {
     dockeragent::node { "${prefix}${n}.${::fqdn}":
-      ensure => $ensure,
+      ensure   => $ensure,
       masterip => $masterip,
-      image => $image,
-      command => $command,
+      image    => $image,
+      command  => $command,
     }
   }
 }

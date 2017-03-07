@@ -8,13 +8,13 @@ define dockeragent::node (
   require dockeragent
 
   docker::run { $title:
-    ensure => $ensure,
-    hostname => $title,
-    image => $image,
-    command => $command,
+    ensure           => $ensure,
+    hostname         => $title,
+    image            => $image,
+    command          => $command,
     extra_parameters => [
       "--add-host \"puppet:${masterip}\"",
-      '--restart=always',
+      #      '--restart=always',
     ]
 
   }
