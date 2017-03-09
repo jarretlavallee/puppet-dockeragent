@@ -36,7 +36,7 @@
 # Copyright 2017 Jarret Lavallee, unless otherwise noted.
 #
 class dockeragent (
-  String $image = hiera('dockeragent::image', 'puppet/puppet-agent')
+  String $image = 'puppet/puppet-agent'
 ){
 
   include docker

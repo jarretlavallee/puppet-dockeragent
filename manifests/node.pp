@@ -66,16 +66,16 @@
 #
 define dockeragent::node (
   String $ensure = present,
-  String $image = hiera('dockeragent::image','puppet/puppet-agent'),
-  String $masterip = hiera('dockeragent::masterip', $::ipaddress_docker0),
-  String $command = hiera('dockeragent::command', 'agent --verbose --no-daemonize --summarize'),
-  Array $extraparams = hiera('dockeragent::extraparams', undef),
+  String $image = 'puppet/puppet-agent',
+  String $masterip = $::ipaddress_docker0,
+  String $command = 'agent --verbose --no-daemonize --summarize',
+  Array $extraparams = [],
 ) {
 
   require dockeragent
 
   $addhost = "--add-host \"puppet:${masterip}\""
-  if $extraparams != undef {
+  if empty($extraparams) {
     $extra_parameters = concat(
       [$addhost],
       $extraparams

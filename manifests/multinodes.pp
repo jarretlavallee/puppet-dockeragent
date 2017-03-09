@@ -91,13 +91,13 @@
 #
 class dockeragent::multinodes (
   String $ensure = present,
-  String $image = hiera('dockeragent::image','puppet/puppet-agent'),
-  String $masterip = hiera('dockeragent::masterip', $::ipaddress_docker0),
-  String $command = hiera('dockeragent::command', 'agent --verbose --no-daemonize --summarize'),
-  Array $extraparams = hiera('dockeragent::extraparams', []),
-  Integer $agents = hiera('dockeragent::multinodes::agents', 5),
-  String $prefix = hiera ('dockeragent::multinodes::prefix', 'agent'),
-  String $domain = hiera ('dockeragent::multinodes::domain', $::fqdn),
+  String $image = 'puppet/puppet-agent',
+  String $masterip = $::ipaddress_docker0,
+  String $command = 'agent --verbose --no-daemonize --summarize',
+  Array $extraparams = [],
+  Integer $agents =  5,
+  String $prefix = 'agent-',
+  String $domain = $::fqdn,
 ) {
 
   require dockeragent
