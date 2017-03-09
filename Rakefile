@@ -7,6 +7,8 @@ if RUBY_VERSION >= '1.9'
   RuboCop::RakeTask.new
 end
 
+task :default => [:test]
+
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 PuppetLint.configuration.send('disable_class_parameter_defaults')
