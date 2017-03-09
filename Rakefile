@@ -9,13 +9,19 @@ end
 
 task :default => [:test]
 
+exclude_paths = [
+  'spec/**/*.pp',
+  'pkg/**/*.pp',
+  'vendor/**/*'
+]
+
 PuppetLint.configuration.send('disable_80chars')
-PuppetLint.configuration.send('disable_class_inherits_from_params_class')
-PuppetLint.configuration.send('disable_class_parameter_defaults')
 PuppetLint.configuration.send('disable_documentation')
-PuppetLint.configuration.send('disable_single_quote_string_with_variables')
 PuppetLint.configuration.relative = true
-PuppetLint.configuration.ignore_paths = ['spec/**/*.pp', 'pkg/**/*.pp']
+PuppetLint.configuration.ignore_paths = exclude_paths
+PuppetSyntax.fail_on_deprecation_notices = false
+PuppetSyntax.exclude_paths = exclude_paths
+
 
 desc 'Validate manifests, templates, and ruby files'
 task :validate do
