@@ -1,0 +1,4 @@
+fixtures:
+  forge_modules:
+    docker: "garethr/docker"
+    stdlib: "puppetlabs/stdlib"

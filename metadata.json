@@ -1,0 +1,15 @@
+{
+  "name": "jarretlavallee-dockeragent",
+  "version": "0.1.0",
+  "author": "jarretlavallee",
+  "summary": "Deploy docker instances with puppet agents from a node classifier",
+  "license": "Apache-2.0",
+  "source": "https://github.com/jarretlavallee/puppet-dockeragent.git",
+  "project_page": "https://github.com/jarretlavallee/puppet-dockeragent",
+  "issues_url": "https://github.com/jarretlavallee/puppet-dockeragent",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
+    {"name":"garethr-docker","version_requirement":">= 5.2.0"}
+  ],
+  "data_provider": null
+}
