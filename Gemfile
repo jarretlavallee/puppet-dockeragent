@@ -1,33 +1,43 @@
-source ENV['GEM_SOURCE'] || 'https://rubygems.org'
+source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
-group :test do
-  gem "rake", "~> 10.0"
-  if puppet_gem_version = ENV['PUPPET_GEM_VERSION']
-    gem "puppet", puppet_gem_version
-  elsif puppet_git_url = ENV['PUPPET_GIT_URL']
-    gem "puppet", :git => puppet_git_url
+def location_for(place, fake_version = nil)
+  if place =~ /^((?:git|https?)[:@][^#]*)#(.*)/
+    [fake_version, { :git => $1, :branch => $2, :require => false }].compact
+  elsif place =~ /^file:\/\/(.*)/
+    ['>= 0', { :path => File.expand_path($1), :require => false }]
   else
-    gem "puppet"
+    [place, { :require => false }]
   end
-  gem 'puppet-lint', '>= 1.0.0'
-  gem "puppet-lint-unquoted_string-check"
-  gem "rspec-puppet"
-  gem "puppet-syntax"
-  gem "puppetlabs_spec_helper", ">= 1.0.0"
-  gem "metadata-json-lint"
-  gem "rspec"
-  gem "rspec-retry"
-  gem "simplecov", ">= 0.11.0"
-  gem "simplecov-console"
-  gem "json_pure", "<= 2.0.1" # 2.0.2 requires Ruby 2+
-  gem 'facter', '>= 1.7.0'
 end
 
-# rspec must be v2 for ruby 1.8.7
-if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
-  gem 'rspec', '~> 2.0'
-  gem 'rake', '~> 10.0'
+gem 'rspec', *location_for(ENV['RSPEC_GEM_VERSION'] || '~> 3.0')
+gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'] || '~> 4.0')
+gem 'pry', :group => :development
+
+if RUBY_VERSION =~ /^1\./
+  gem 'rake', '10.5.0' # still supports 1.8
 else
-  # rubocop requires ruby >= 1.9
+  gem 'rake'
+end
+
+# json_pure 2.0.2 added a requirement on ruby >= 2. We pin to json_pure 2.0.1
+# if using ruby 1.9; older ruby versions do not support puppets that require
+# these gems.
+if RUBY_VERSION =~ /^1\.9/
+  gem 'json_pure', '<=2.0.1'
+  # rubocop 0.42.0 requires ruby >=2; 1.8 is not supported
+  gem 'rubocop', '0.41.2'       if RUBY_VERSION =~ /^1\.9/
+elsif RUBY_VERSION =~ /^1\.8/
+  gem 'json_pure', '< 2.0.0'
+else
   gem 'rubocop'
+  gem 'rubocop-rspec', '~> 1.6' if RUBY_VERSION >= '2.3.0'
+end
+
+if ENV['COVERAGE'] == 'yes'
+  gem 'coveralls', :require => false
+end
+
+if File.exist?('Gemfile.local')
+  eval_gemfile('Gemfile.local')
 end

@@ -11,5 +11,15 @@
     {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
     {"name":"garethr-docker","version_requirement":">= 5.2.0"}
   ],
-  "data_provider": null
+  "operatingsystem_support": [
+    {
+      "operatingsystem":"RedHat",
+      "operatingsystemrelease":[ "6.0", "7.0" ]
+     },
+     {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [ "14.04", "16.04" ]
+     }
+    ],
+  "data_provider": "hiera"
 }
