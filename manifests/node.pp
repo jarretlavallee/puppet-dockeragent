@@ -70,6 +70,7 @@ define dockeragent::node (
   String $masterip = $::ipaddress_docker0,
   String $command = 'agent --verbose --no-daemonize --summarize',
   Array $extraparams = [],
+  Boolean $remove_container_on_start = false,
 ) {
 
   require dockeragent
@@ -85,11 +86,12 @@ define dockeragent::node (
   }
 
   docker::run { $title:
-    ensure           => $ensure,
-    hostname         => $title,
-    image            => $image,
-    command          => $command,
-    extra_parameters => $extra_parameters
+    ensure                    => $ensure,
+    hostname                  => $title,
+    image                     => $image,
+    command                   => $command,
+    extra_parameters          => $extra_parameters,
+    remove_container_on_start => $remove_container_on_start,
 
   }
 

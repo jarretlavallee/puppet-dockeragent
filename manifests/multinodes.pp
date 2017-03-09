@@ -98,17 +98,19 @@ class dockeragent::multinodes (
   Integer $agents =  5,
   String $prefix = 'agent-',
   String $domain = $::fqdn,
+  Boolean $remove_container_on_start = false,
 ) {
 
   require dockeragent
 
   range(1,$agents).each |$n| {
     dockeragent::node { "${prefix}${n}.${domain}":
-      ensure      => $ensure,
-      masterip    => $masterip,
-      image       => $image,
-      command     => $command,
-      extraparams => $extraparams,
+      ensure                    => $ensure,
+      masterip                  => $masterip,
+      image                     => $image,
+      command                   => $command,
+      extraparams               => $extraparams,
+      remove_container_on_start => $remove_container_on_start,
     }
   }
 }
