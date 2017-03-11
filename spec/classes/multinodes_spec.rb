@@ -16,14 +16,15 @@ describe 'dockeragent::multinodes' do
 
   describe 'With Params' do
     let(:params) { {
-      :ensure      => 'present',
-      :masterip    => '1.2.3.4',
-      :image       => 'none/none',
-      :command     => 'agent -t',
-      :prefix      => 'test-',
-      :domain      => 'localdom',
-      :agents      => 10,
-      :extraparams => ['--restart=always']
+      :ensure                    => 'present',
+      :masterip                  => '1.2.3.4',
+      :image                     => 'none/none',
+      :command                   => 'agent -t',
+      :prefix                    => 'test-',
+      :domain                    => 'localdom',
+      :agents                    => 10,
+      :extraparams               => ['--restart=always'],
+      :remove_container_on_start => false
     } }
     on_supported_os.each do |os, facts|
       context "on #{os}" do
@@ -34,6 +35,16 @@ describe 'dockeragent::multinodes' do
         it { should contain_class('dockeragent::multinodes') }
         it { should contain_dockeragent__node('test-1.localdom') }
         it { is_expected.to have_dockeragent__node_resource_count(10) }
+        it do
+           is_expected.to contain_dockeragent__node('test-1.localdom').with(
+               'ensure'                    => 'present',
+               'masterip'                  => '1.2.3.4',
+               'image'                     => 'none/none',
+               'command'                   => 'agent -t',
+               'extraparams'               => ['--restart=always'],
+               'remove_container_on_start' => false
+           )
+        end
       end
     end
   end
