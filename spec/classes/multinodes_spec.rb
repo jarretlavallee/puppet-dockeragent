@@ -20,7 +20,7 @@ describe 'dockeragent::multinodes' do
       :masterip    => '1.2.3.4',
       :image       => 'none/none',
       :command     => 'agent -t',
-      :prefix      => 'agent-',
+      :prefix      => 'test-',
       :domain      => 'localdom',
       :agents      => 10,
       :extraparams => ['--restart=always']
@@ -32,6 +32,8 @@ describe 'dockeragent::multinodes' do
         end
         it { is_expected.to compile.with_all_deps }
         it { should contain_class('dockeragent::multinodes') }
+        it { should contain_dockeragent__node('test-1.localdom') }
+        it { is_expected.to have_dockeragent__node_resource_count(10) }
       end
     end
   end

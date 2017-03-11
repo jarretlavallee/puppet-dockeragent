@@ -76,7 +76,7 @@ define dockeragent::node (
   require dockeragent
 
   $addhost = "--add-host \"puppet:${masterip}\""
-  if empty($extraparams) {
+  if !empty($extraparams) {
     $extra_parameters = concat(
       [$addhost],
       $extraparams
